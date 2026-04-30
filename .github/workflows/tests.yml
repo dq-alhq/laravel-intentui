@@ -40,6 +40,9 @@ jobs:
       - name: Install Node Dependencies
         run: bun i
 
+      - name: Create bootstrap/cache directory
+        run: mkdir -p bootstrap/cache && chmod -R 775 bootstrap/cache
+
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
