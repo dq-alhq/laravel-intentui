@@ -3,6 +3,7 @@ import { IconLogout, IconSettings } from '@intentui/icons'
 import { MenuHeader, MenuItem, MenuLabel, MenuSeparator } from '@/components/ui/menu'
 import { UserInfo } from '@/components/user-info'
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation'
+import { toUrl } from '@/lib/utils'
 import { logout } from '@/routes'
 import { edit } from '@/routes/profile'
 import type { User } from '@/types'
@@ -17,6 +18,7 @@ export function UserMenuContent({ user }: Props) {
     const handleLogout = () => {
         cleanup()
         router.flushAll()
+        router.post(toUrl(logout()))
     }
 
     return (
@@ -32,7 +34,7 @@ export function UserMenuContent({ user }: Props) {
                 <MenuLabel>Settings</MenuLabel>
             </MenuItem>
             <MenuSeparator />
-            <MenuItem href={logout().url} onAction={handleLogout} data-test='logout-button'>
+            <MenuItem onAction={handleLogout} data-test='logout-button'>
                 <IconLogout />
                 <MenuLabel>Log out</MenuLabel>
             </MenuItem>
