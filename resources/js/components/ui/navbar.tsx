@@ -7,7 +7,7 @@ import { cx } from '@/lib/primitive'
 import { useIsMobile } from '../../hooks/use-mobile'
 import { Button, type ButtonProps } from './button'
 import { Separator } from './separator'
-import { Sheet, SheetBody, SheetContent } from './sheet'
+import { Sheet, SheetBody, SheetContent, SheetTrigger } from './sheet'
 
 interface NavbarContextProps {
     open: boolean
@@ -79,7 +79,7 @@ const NavbarProvider = ({
             <div
                 className={twMerge(
                     'peer/navbar group/navbar relative isolate z-10 flex w-full flex-col',
-                    'has-data-navbar-inset:min-h-svh has-data-navbar-inset:bg-navbar dark:has-data-navbar-inset:bg-bg',
+                    'min-h-svh has-data-navbar-inset:bg-navbar dark:has-data-navbar-inset:bg-bg',
                     className,
                 )}
                 {...props}
@@ -130,6 +130,7 @@ const Navbar = ({
                     data-placement={placement ?? undefined}
                 />
                 <Sheet isOpen={open} onOpenChange={setOpen} {...props}>
+                    <SheetTrigger className='sr-only' />
                     <SheetContent
                         side={side}
                         aria-label='Mobile Navbar'

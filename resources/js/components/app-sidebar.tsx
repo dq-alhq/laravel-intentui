@@ -1,7 +1,7 @@
 import { Link } from '@inertiajs/react'
 import { IconBook, IconFolder, IconGrid4 } from '@intentui/icons'
 import { useEffect } from 'react'
-import AppLogo from '@/components/app-logo'
+import AppLogoIcon from '@/components/app-logo-icon'
 import { NavFooter } from '@/components/nav-footer'
 import { NavMain } from '@/components/nav-main'
 import { NavUser } from '@/components/nav-user'
@@ -10,6 +10,7 @@ import {
     SidebarContent,
     SidebarFooter,
     SidebarHeader,
+    SidebarLabel,
     useSidebar,
 } from '@/components/ui/sidebar'
 import { useCurrentUrl } from '@/hooks/use-current-url'
@@ -50,7 +51,12 @@ export function AppSidebar() {
         <Sidebar collapsible='dock' intent='default'>
             <SidebarHeader>
                 <Link className='flex items-center gap-x-2' href={dashboard()} prefetch>
-                    <AppLogo />
+                    <div className='flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-fg'>
+                        <AppLogoIcon className='size-5 fill-current' />
+                    </div>
+                    <SidebarLabel className='font-medium'>
+                        {import.meta.env.VITE_APP_NAME}
+                    </SidebarLabel>
                 </Link>
             </SidebarHeader>
 

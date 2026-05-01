@@ -1,4 +1,5 @@
-import { IconChevronDown } from '@intentui/icons'
+import { IconChevronDown, IconSidebar } from '@intentui/icons'
+import type React from 'react'
 import { createContext, use, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { type ButtonProps, Button as Trigger } from 'react-aria-components/Button'
 import { composeRenderProps } from 'react-aria-components/composeRenderProps'
@@ -18,8 +19,8 @@ import { Tree, TreeItem, TreeItemContent } from 'react-aria-components/Tree'
 import { twJoin, twMerge } from 'tailwind-merge'
 import { SheetContent } from '@/components/ui/sheet'
 import { TreeIndicator } from '@/components/ui/tree'
+import { useIsMobile } from '@/hooks/use-mobile'
 import { cx } from '@/lib/primitive'
-import { useIsMobile } from '../../hooks/use-mobile'
 import { Button } from './button'
 import { Link } from './link'
 import { Tooltip, TooltipContent } from './tooltip'
@@ -682,21 +683,7 @@ const SidebarTrigger = ({
             }}
             {...props}
         >
-            {children || (
-                <>
-                    <svg
-                        className='size-4'
-                        xmlns='http://www.w3.org/2000/svg'
-                        viewBox='0 0 16 16'
-                        width={16}
-                        height={16}
-                        fill='currentcolor'
-                    >
-                        <path d='M13.25 2.5c.69 0 1.25.56 1.25 1.25v8.5c0 .69-.56 1.25-1.25 1.25H7.5V15h5.75A2.75 2.75 0 0 0 16 12.25v-8.5A2.75 2.75 0 0 0 13.25 1H7.5v1.5zM5.75 1a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-3A2.75 2.75 0 0 1 0 12.25v-8.5A2.75 2.75 0 0 1 2.75 1z' />
-                    </svg>
-                    <span className='sr-only'>Toggle Sidebar</span>
-                </>
-            )}
+            {children || <IconSidebar />}
         </Button>
     )
 }
@@ -768,6 +755,7 @@ const SidebarNav = ({ isSticky = false, className, ...props }: SidebarNavProps) 
 interface SidebarMenuTriggerProps extends ButtonProps {
     alwaysVisible?: boolean
 }
+
 const SidebarMenuTrigger = ({
     alwaysVisible = false,
     className,
@@ -790,6 +778,7 @@ const SidebarMenuTrigger = ({
 }
 
 interface SidebarTreeProps<T extends object> extends TreeProps<T> {}
+
 function SidebarTree<T extends object>({
     className,
     selectionMode = 'none',

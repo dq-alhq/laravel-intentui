@@ -1,5 +1,6 @@
 import { usePage } from '@inertiajs/react'
-import { useEffect, useState } from 'react'
+import { IconBookOpen, IconFolder, IconGrid4 } from '@intentui/icons'
+import { useEffect } from 'react'
 import AppLogo from '@/components/app-logo'
 import { Breadcrumbs } from '@/components/breadcrumbs'
 import { Avatar } from '@/components/ui/avatar'
@@ -10,22 +11,36 @@ import {
     Navbar,
     NavbarGap,
     NavbarItem,
+    NavbarLabel,
     NavbarMobile,
-    NavbarProvider,
     NavbarSection,
     NavbarSpacer,
     NavbarStart,
     NavbarTrigger,
+    useNavbar,
 } from '@/components/ui/navbar'
 import { UserMenuContent } from '@/components/user-menu-content'
-import { initials } from '@/lib/utils'
-import type { BreadcrumbItem } from '@/types'
+import { initials, toUrl } from '@/lib/utils'
+import type { BreadcrumbItem, NavItem } from '@/types'
 
 const navigations = [
     {
-        name: 'Home',
-        textValue: 'Home',
-        href: '/',
+        title: 'Dashboard',
+        href: '/dashboard',
+        icon: IconGrid4,
+    },
+]
+
+const rightNavItems: NavItem[] = [
+    {
+        title: 'Repository',
+        href: 'https://github.com/laravel/react-starter-kit',
+        icon: IconFolder,
+    },
+    {
+        title: 'Documentation',
+        href: 'https://laravel.com/docs/starter-kits#react',
+        icon: IconBookOpen,
     },
 ]
 
@@ -36,13 +51,17 @@ export function AppHeader({
 }: React.ComponentProps<typeof Navbar> & { breadcrumbs?: BreadcrumbItem[] }) {
     const page = usePage()
     const { auth } = usePage().props
-    const [isOpen, setIsOpen] = useState(false)
-    useEffect(() => setIsOpen(false), [page.url])
+    const { open, setOpen, isMobile } = useNavbar()
+    useEffect(() => {
+        if (open && isMobile) {
+            setOpen(false)
+        }
+    }, [page.url])
     return (
-        <NavbarProvider isOpen={isOpen} onOpenChange={setIsOpen}>
-            <Navbar {...props}>
+        <>
+            <Navbar intent='float' {...props}>
                 <NavbarStart>
-                    <Link href='/' aria-label='Goto homepage'>
+                    <Link className='flex items-center gap-3' href='/' aria-label='Goto homepage'>
                         <AppLogo />
                     </Link>
                 </NavbarStart>
@@ -52,22 +71,23 @@ export function AppHeader({
                     {navigations.map((item) => (
                         <NavbarItem
                             isCurrent={item.href === page.url}
-                            key={item.href}
-                            href={item.href}
+                            key={toUrl(item.href)}
+                            href={toUrl(item.href)}
                         >
-                            {item.name}
+                            {item.icon && <item.icon />}
+                            <NavbarLabel>{item.title}</NavbarLabel>
                         </NavbarItem>
                     ))}
-                    <NavbarItem
-                        target='_blank'
-                        href='https://intentui.com'
-                        className='justify-between'
-                    >
-                        Documentation
-                    </NavbarItem>
-                    <NavbarItem target='_blank' href='https://design.intentui.com'>
-                        Blocks
-                    </NavbarItem>
+                    {rightNavItems.map((item) => (
+                        <NavbarItem
+                            key={toUrl(item.href)}
+                            href={toUrl(item.href)}
+                            isCurrent={item.href === page.url}
+                        >
+                            {item.icon && <item.icon />}
+                            <NavbarLabel>{item.title}</NavbarLabel>
+                        </NavbarItem>
+                    ))}
                 </NavbarSection>
                 <NavbarSpacer />
                 <NavbarSection className='ml-auto hidden gap-x-2 lg:flex'>
@@ -78,7 +98,7 @@ export function AppHeader({
                                     src={auth.user.avatar}
                                     alt={auth.user.name}
                                     initials={initials(auth.user.name)}
-                                    size='sm'
+                                    size='md'
                                 />
                             </Button>
                             <MenuContent placement='bottom end' className='sm:min-w-56'>
@@ -104,7 +124,7 @@ export function AppHeader({
                                     src={auth.user.avatar}
                                     alt={auth.user.name}
                                     initials={initials(auth.user.name)}
-                                    size='sm'
+                                    size='md'
                                 />
                             </Button>
                             <MenuContent placement='bottom end' className='sm:min-w-56'>
@@ -131,6 +151,6 @@ export function AppHeader({
                     </div>
                 </div>
             )}
-        </NavbarProvider>
+        </>
     )
 }

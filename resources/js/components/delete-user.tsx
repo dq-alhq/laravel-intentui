@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/field'
 import {
     Modal,
+    ModalBody,
     ModalClose,
     ModalContent,
     ModalDescription,
@@ -37,7 +38,7 @@ export default function DeleteUser() {
                     <Button intent='danger' data-test='delete-user-button'>
                         Delete account
                     </Button>
-                    <ModalContent>
+                    <ModalContent role='alertdialog'>
                         <ModalHeader>
                             <ModalTitle>Are you sure you want to delete your account?</ModalTitle>
                             <ModalDescription>
@@ -54,20 +55,23 @@ export default function DeleteUser() {
                             }}
                             onError={() => passwordInput.current?.focus()}
                             resetOnSuccess
-                            className='space-y-6'
                         >
                             {({ resetAndClearErrors, processing, errors }) => (
                                 <>
-                                    <TextField
-                                        id='password'
-                                        name='password'
-                                        autoComplete='current-password'
-                                    >
-                                        <Label className='sr-only'>Password</Label>
-                                        <PasswordInput ref={passwordInput} placeholder='Password' />
-                                        <InputError message={errors.password} />
-                                    </TextField>
-
+                                    <ModalBody>
+                                        <TextField
+                                            id='password'
+                                            name='password'
+                                            autoComplete='current-password'
+                                        >
+                                            <Label className='sr-only'>Password</Label>
+                                            <PasswordInput
+                                                ref={passwordInput}
+                                                placeholder='Password'
+                                            />
+                                            <InputError message={errors.password} />
+                                        </TextField>
+                                    </ModalBody>
                                     <ModalFooter className='gap-2'>
                                         <ModalClose onPress={() => resetAndClearErrors()}>
                                             Cancel

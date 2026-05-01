@@ -111,7 +111,7 @@ const DialogFooter = ({ className, ...props }: DialogFooterProps) => {
     )
 }
 
-const DialogClose = ({ intent = 'plain', ref, ...props }: ButtonProps) => {
+const DialogClose = ({ intent = 'outline', ref, ...props }: ButtonProps) => {
     return <Button slot='close' ref={ref} intent={intent} {...props} />
 }
 

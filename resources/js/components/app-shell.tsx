@@ -1,5 +1,6 @@
 import { usePage } from '@inertiajs/react'
 import type { ReactNode } from 'react'
+import { NavbarProvider } from '@/components/ui/navbar'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import type { AppVariant } from '@/types'
 
@@ -12,7 +13,7 @@ export function AppShell({ children, variant = 'sidebar' }: Props) {
     const isOpen = usePage().props.sidebarOpen
 
     if (variant === 'header') {
-        return <div className='flex min-h-screen w-full flex-col'>{children}</div>
+        return <NavbarProvider defaultOpen={false}>{children}</NavbarProvider>
     }
 
     return <SidebarProvider defaultOpen={isOpen}>{children}</SidebarProvider>
